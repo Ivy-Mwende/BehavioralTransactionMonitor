@@ -2,12 +2,13 @@ package com.fintech.btm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
-public class BehavioralTransactionMonitorApplication {
+@EnableKafka
+public class BtmApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BehavioralTransactionMonitorApplication.class, args);
+        SpringApplication.run(BtmApplication.class, args);
     }
-
 }
