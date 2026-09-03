@@ -7,11 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @Slf4j
 public class TransactionConsumerService {
 
     private final TransactionRepository transactionRepository;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
     public TransactionConsumerService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
@@ -32,7 +36,16 @@ public class TransactionConsumerService {
             transaction.setMerchantName(event.getMerchantName());
             transaction.setLocationLatitude(event.getLocationLatitude());
             transaction.setLocationLongitude(event.getLocationLongitude());
-            transaction.setTransactionTimestamp(event.getTransactionTimestamp());
+
+            // Parse String timestamp back to LocalDateTime
+            try {
+                LocalDateTime timestamp = LocalDateTime.parse(event.getTransactionTimestamp(), formatter);
+                transaction.setTransactionTimestamp(timestamp);
+            } catch (Exception e) {
+                log.warn("Could not parse timestamp: {}, using current time", event.getTransactionTimestamp());
+                transaction.setTransactionTimestamp(LocalDateTime.now());
+            }
+
             transaction.setStatus("RECEIVED");
 
             transactionRepository.save(transaction);

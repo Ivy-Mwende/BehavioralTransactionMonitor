@@ -1,8 +1,8 @@
 package com.fintech.btm.api;
 
+import com.fintech.btm.dto.TransactionEvent;
 import com.fintech.btm.model.Transaction;
 import com.fintech.btm.repository.TransactionRepository;
-import com.fintech.btm.dto.TransactionEvent;
 import com.fintech.btm.service.TransactionProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,6 @@ public class TransactionController {
         this.transactionRepository = transactionRepository;
     }
 
-    // Health check endpoint
     @GetMapping("/health")
     public String health() {
         return "OK";
@@ -71,7 +70,7 @@ public class TransactionController {
                 "Carrefour Supermarket",
                 -1.2866,
                 36.8172,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
 
         try {
@@ -93,8 +92,6 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
-
-    // 🔹 New query endpoints
 
     @GetMapping("/user/{userId}")
     public List<Transaction> getTransactionsByUser(@PathVariable Long userId) {
