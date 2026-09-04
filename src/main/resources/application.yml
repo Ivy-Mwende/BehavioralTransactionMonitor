@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: BehavioralTransactionMonitor
+  profiles:
+    active: dev
+
+server:
+  servlet:
+    context-path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+jwt:
+  secret: ${JWT_SECRET:your-secret-key-change-this-in-production-at-least-32-characters-long}
+  expiration: ${JWT_EXPIRATION:86400000}

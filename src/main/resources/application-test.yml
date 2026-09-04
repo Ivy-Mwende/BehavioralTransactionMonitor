@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  cache:
+    type: simple
+
+  security:
+    user:
+      name: test_user
+      password: test_password
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: WARN
+    com.fintech.btm: DEBUG
+
+springdoc:
+  swagger-ui:
+    enabled: false

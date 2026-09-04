@@ -1,0 +1,62 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:btm_db}
+    username: ${DB_USER:btm_user}
+    password: ${DB_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          batch_size: 50
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD}
+    timeout: 60000ms
+    jedis:
+      pool:
+        max-active: 32
+        max-idle: 16
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 7200000
+      cache-null-values: false
+
+  security:
+    user:
+      name: ${APP_USER:admin}
+      password: ${APP_PASSWORD}
+
+server:
+  port: 8080
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+    key-store: ${SSL_KEYSTORE:/etc/ssl/keystore.p12}
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
+    key-store-type: PKCS12
+
+logging:
+  level:
+    root: WARN
+    com.fintech.btm: INFO
+  file:
+    name: /var/log/btm/application.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+springdoc:
+  swagger-ui:
+    enabled: false
