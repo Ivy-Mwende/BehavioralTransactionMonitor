@@ -2,8 +2,10 @@ package com.fintech.btm.api;
 
 import com.fintech.btm.dto.TransactionEvent;
 import com.fintech.btm.model.Transaction;
+import com.fintech.btm.model.UserProfile;
 import com.fintech.btm.repository.TransactionRepository;
 import com.fintech.btm.service.TransactionProducerService;
+import com.fintech.btm.service.UserProfileCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,14 @@ public class TransactionController {
 
     private final TransactionProducerService producerService;
     private final TransactionRepository transactionRepository;
+    private final UserProfileCacheService userProfileCacheService;
 
     public TransactionController(TransactionProducerService producerService,
-                                 TransactionRepository transactionRepository) {
+                                 TransactionRepository transactionRepository,
+                                 UserProfileCacheService userProfileCacheService) {
         this.producerService = producerService;
         this.transactionRepository = transactionRepository;
+        this.userProfileCacheService = userProfileCacheService;
     }
 
     @GetMapping("/health")
@@ -104,5 +109,30 @@ public class TransactionController {
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
         return transactionRepository.findByUserIdAndTransactionTimestampBetween(userId, start, end);
+    }
+
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<UserProfile> getUserProfile(@PathVariable Long userId) {
+        log.info("Fetching user profile for userId={}", userId);
+        UserProfile profile = userProfileCacheService.getUserProfile(userId);
+
+        if (profile == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @PostMapping("/cache-test")
+    public ResponseEntity<Map<String, Object>> testCaching() {
+        log.info("Testing Redis caching");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Cache test completed");
+        response.put("timestamp", LocalDateTime.now().toString());
+        response.put("userProfiles_cache_name", "userProfiles");
+        response.put("riskScores_cache_name", "riskScores");
+
+        return ResponseEntity.ok(response);
     }
 }

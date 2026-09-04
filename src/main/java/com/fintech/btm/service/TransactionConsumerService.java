@@ -21,13 +21,12 @@ public class TransactionConsumerService {
         this.transactionRepository = transactionRepository;
     }
 
-    @KafkaListener(topics = "transactions-stream", groupId = "btm-consumer-group")
+    // @KafkaListener(topics = "transactions-stream", groupId = "btm-consumer-group")  // DISABLED FOR NOW
     public void consumeTransaction(TransactionEvent event) {
         try {
             log.info("Consumed transaction from Kafka: transactionId={}, userId={}, amount={}",
                     event.getTransactionId(), event.getUserId(), event.getAmount());
 
-            // Convert DTO to Entity and save to database
             Transaction transaction = new Transaction();
             transaction.setTransactionId(event.getTransactionId());
             transaction.setUserId(event.getUserId());
@@ -37,7 +36,6 @@ public class TransactionConsumerService {
             transaction.setLocationLatitude(event.getLocationLatitude());
             transaction.setLocationLongitude(event.getLocationLongitude());
 
-            // Parse String timestamp back to LocalDateTime
             try {
                 LocalDateTime timestamp = LocalDateTime.parse(event.getTransactionTimestamp(), formatter);
                 transaction.setTransactionTimestamp(timestamp);
