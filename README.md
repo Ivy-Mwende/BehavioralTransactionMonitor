@@ -139,41 +139,6 @@ GET /api/v1/transactions/{userId}/profile
 POST /api/v1/transactions/cache-test
 ```
 
-## Architecture
-
-### Phase 1: Infrastructure (Days 1-10) 
-- Spring Boot REST API
-- PostgreSQL database
-- Redis caching
-- Kafka streaming
-- Docker Compose setup
-
-### Phase 2: Behavioral Detection (Days 11-30) 
-- Bayesian anomaly detection
-- User profile learning
-- Concept drift detection
-- Risk scoring engine
-
-### Phase 3: Ring Detection (Days 31-60)
-- Transaction graph analysis
-- Clique detection algorithm
-- Density-based ring identification
-- Temporal fraud pattern matching
-
-### Phase 4: Polish & Deployment (Days 61-80)
-- Performance tuning
-- Security hardening
-- Monitoring & alerts
-- Production deployment
-
-## Performance
-
-- **Risk Score Latency**: <100ms (p99)
-- **Throughput**: 1000+ transactions/sec
-- **Cache Hit Rate**: >80% on user profiles
-- **Fraud Detection Rate**: 85%+
-- **False Positive Rate**: <10%
-
 ## Development
 
 ### Running Tests
@@ -214,60 +179,13 @@ APP_PASSWORD=strong_password
 SSL_ENABLED=true
 SSL_KEYSTORE=/etc/ssl/keystore.p12
 SSL_KEYSTORE_PASSWORD=keystore_password
-```
 
-## Known Limitations
-
-- Behavioral detection requires minimum 100 historical transactions per user
-- Ring detection runs every 5 minutes (not real-time)
-- Synthetic identity detection not yet implemented (Phase 2 post-semester)
-- Model retraining is manual (automatic retraining planned for Phase 2)
-
-## Future Roadmap
-
-- [ ] Automatic model retraining
-- [ ] Synthetic identity fraud detection
-- [ ] Machine learning model versioning
-- [ ] Advanced explainability (SHAP values)
-- [ ] Real-time alerting dashboard
-- [ ] Mobile app for investigators
-- [ ] Integration with payment gateways
-- [ ] Compliance reporting (PCI-DSS, AML)
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## License
-
-This project is licensed under the MIT License - see LICENSE file for details.
 
 ## Author
 
 **Ivy Mwende**
 - GitHub: [@Ivy-Mwende](https://github.com/Ivy-Mwende)
-- Email: ivy.mwende@example.com
+- Email: mwendeivymumbi@gmail.com
 - Location: Nairobi, Kenya
 
-## Acknowledgments
 
-- Spring Boot documentation
-- Apache Kafka community
-- PostgreSQL & Redis teams
-- KCA University Computer Science Department
-
-## Contact & Support
-
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Email: support@behavioraltransactionmonitor.dev
-
----
-
-**Last Updated**: September 4, 2026
-**Current Phase**: Phase 1 (Infrastructure) (DONE)
-**Next Phase**: Phase 2 (Behavioral Detection)
